@@ -93,10 +93,13 @@ var io = require('socket.io')(server);
 var os = require('os');
 
 function emitServerStatus(socket) {
-  socket.emit('server-status', { loadavg: os.loadavg() });
+  let loadavg = os.loadavg();
+  socket.emit('server-status', { 
+    loadavg: loadavg
+  });
   console.log('server-status event emitted.');
 }
 
 io.on('connection', function (socket) {
-  setInterval(emitServerStatus, 10, socket);
+  setInterval(emitServerStatus, 250, socket);
 });
